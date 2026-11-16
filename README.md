@@ -2,14 +2,14 @@
 
 ## Project overview
 
-This project recreates the Bank of Canada Inflation Calculator and extends it to accept monthly dates. Both versions use the Bank of Canada monthly all-items Consumer Price Index (CPI) data.
+This project recreates the Bank of Canada Inflation Calculator and enhances it to use monthly dates. Both versions use the Bank of Canada monthly all-items Consumer Price Index (CPI) data.
 
 - **Original calculator:** asks for a dollar amount and two years, then uses each year's September CPI value.
 - **Enhanced calculator:** asks for a dollar amount and two month/year periods in `MM/YYYY` format, then uses CPI for the exact months entered. It validates the amount and dates.
 
 Both programs adjust the cost of a basket using the ratio of the CPI values. Pandas reads and organizes the data, NumPy calculates the compound average annual rate, and Matplotlib creates the CPI graphs.
 
-## Project files and instructions
+## Project files
 
 | File | Description |
 |---|---|
@@ -20,7 +20,10 @@ Both programs adjust the cost of a basket using the ratio of the CPI values. Pan
 | `enhanced_cpi_graph.png` | Graph for the enhanced calculator. |
 | `README.md` | Project overview, instructions, code walkthroughs, graphs, and sample output. |
 
-Keep the CSV file in the same folder as both Python scripts. Keep the two graph images beside this README so GitHub can display them.
+## Instructions
+
+Keep the CSV file in the same folder as both Python scripts. 
+Keep the two generated graph images (original_cpi_graph_september.png & enhanced_cpi_graph.png) beside this README so GitHub can display them.
 
 Install Python 3 and the required packages:
 
@@ -35,24 +38,22 @@ python Bank_Of_Canada_CPI_Calculator_Original.py
 python Bank_Of_Canada_CPI_Calculator_Enhanced.py
 ```
 
-The original program asks for a dollar amount and two years. Commas and spaces in the amount are allowed. It assumes the amount and years are valid. The enhanced program asks for a positive amount and two dates in `MM/YYYY` format, such as `09/1915`. It repeats the prompt if the amount or date is invalid, outside the data range, or for a month without a CPI observation. Each program saves its graph as `inflation_cpi_chart.png` in the working folder. Running the other version in the same folder replaces that generated graph.
+The original program has 3 inputs, it asks for a dollar amount and two years. Commas and spaces in the amount are allowed. It assumes the amount and years are valid. The enhanced program also has 3 inputs, and asks for a positive amount and two dates in `MM/YYYY` format, such as `09/1915`. It repeats the prompt if the amount or date is invalid, outside the data range, or for a month without a CPI observation. Each program saves its graph as `inflation_cpi_chart.png` in the working folder. Running the other version in the same folder replaces that generated graph.
 
 # Original calculator: September CPI by year
 
-The original program accepts calendar years rather than months. It filters the monthly CPI data to September observations, so the selected CPI for 1915, for example, is the September 1915 observation. It then applies the CPI ratio to estimate the equivalent basket cost in the second year.
+Similarly to the calculator avilable on the Bank of Canada website, the original program only accepts calendar years. It filters the monthly CPI data to September observations, so the selected CPI for 1915, for example, is the September 1915 observation. It then applies the CPI ratio to estimate the equivalent basket cost in the second year.
 
 ## Original code walkthrough
 
-### 1. Imports and program entry point
+### 1. Imports
 
-The program imports NumPy, Pandas, and Matplotlib. The `if __name__ == "__main__":` block means the calculator prompts and graph code run when this file is started directly.
+The program imports NumPy, Pandas, and Matplotlib.
 
 ```python
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
-if __name__ == "__main__":
 ```
 
 NumPy is used for exponentiation in the annualized inflation calculation. Pandas reads and filters the CSV data. Matplotlib builds and saves the graph.
@@ -71,7 +72,7 @@ df["CPI"] = pd.to_numeric(df["CPI"])
 
 ### 3. Select one CPI value per year
 
-The code extracts a year and month from every date. It keeps only rows where the month is `9`, which is September, and groups those rows by year. Because there is one September observation per year, the resulting series contains September CPI for each year.
+The code extracts a year and month from every date. It keeps only rows where the month is `9`, which is September, and groups those rows by year. Because there is one September observation per year, the series contains September CPI for each year.
 
 ```python
 df["Year"] = df["Date"].dt.year
@@ -106,7 +107,7 @@ The original version expects valid inputs. For example, the entered years should
 
 ### 5. Calculate the adjusted cost and inflation results
 
-The cost formula multiplies the original amount by the ratio of the second CPI to the first CPI. The percentage formula compares the adjusted cost with the original amount. The program uses the absolute year difference for the time period. The average annual rate is a compound rate; when both selected years are equal, it sets the rate to zero because there is no elapsed time.
+The cost formula multiplies the original amount by the ratio of the second CPI to the first CPI. The percentage formula compares the adjusted cost with the original amount. The program uses the absolute year difference for the time period. The average annual rate is a compound rate. When both selected years are equal, it sets the rate to 0.00% because there is no elapsed time.
 
 ```python
 adjusted_cost = amount * (cpi2 / cpi1)
@@ -147,14 +148,13 @@ The enhanced calculator accepts month and year, so the user can compare specific
 
 ## Enhanced code walkthrough
 
-### 1. Imports, input functions, and program entry point
+### 1. Imports & input functions
 
 The enhanced program uses the same three libraries as the original. It defines two functions before the main program:
 
 - `get_amount()` asks for a positive numeric amount. It removes `$`, commas, and spaces, converts the text to a number, and catches `ValueError` if the text cannot be converted.
 - `get_period()` asks for a month and year, then checks the format, the available date range, and whether the CPI series contains that exact month.
 
-The main program is inside `if __name__ == "__main__":`. This lets the helper functions be defined first, while the prompts and graph run when the file is started directly.
 
 ```python
 def get_amount():
@@ -230,7 +230,7 @@ month_difference = month_difference + second_period.month - first_period.month
 number_of_years = abs(month_difference) / 12
 ```
 
-If the selected periods are identical, the annual rate is zero. Otherwise, NumPy raises the CPI ratio to the reciprocal of the number of years, producing a compound annual rate. The results are printed in the Bank of Canada layout, with dates displayed as month and year and prices identified as CAD.
+If the selected periods are identical, the annual rate is 0.00%. Otherwise, NumPy raises the CPI ratio to the reciprocal of the number of years, computing a compound annual rate. The results are printed in the Bank of Canada layout, with dates displayed as month and year and prices identified as CAD.
 
 ### 6. Create and save the enhanced graph
 
@@ -255,19 +255,10 @@ The left axis shows monthly CPI. The right axis shows the year-over-year percent
 
 ![Enhanced calculator: monthly CPI and annual percentage change](enhanced_cpi_graph.png)
 
-## Summary: how the versions differ
-
-| Feature | Original | Enhanced |
-|---|---|---|
-| User input | Amount and two years | Positive amount and two `MM/YYYY` periods |
-| CPI selected | September CPI for each year | CPI for the exact month entered |
-| Validation | Assumes valid inputs | Re-prompts for invalid amount, date, or unavailable month |
-| Graph | September CPI and September-to-September change | Monthly CPI and year-over-year change |
-| Shared calculations | Adjusted cost, total percentage change, annualized rate | Adjusted cost, total percentage change, annualized rate |
 
 ## Formulas and calculations
 
-Let `Cost1` be the price in the first period, `CPI1` the CPI in that period, and `CPI2` the CPI in the second period.
+Let `Cost1` be the price in the first period, `CPI1` the CPI in that period, `Cost2` the price in the target period, and `CPI2` the CPI in the second period.
 
 **Adjusted cost in the second period**
 
@@ -302,7 +293,7 @@ Number of years = absolute value of months between periods / 12
 Average annual rate = ((CPI2 / CPI1)^(1 / number of years) - 1) × 100
 ```
 
-If both selected periods are identical, the program reports `0.00%` because there is no elapsed time to annualize.
+If both selected periods are identical, the program returns `0.00%` because there is no elapsed time to annualize.
 
 **Annual percentage change in the graphs**
 
@@ -314,16 +305,16 @@ Annual percentage change = ((CPI in this period / CPI in the same period one yea
 
 ## What is CPI?
 
-The Consumer Price Index measures changes over time in the prices consumers pay for a representative basket of goods and services. The basket reflects household spending, and its components have weights based on their relative importance. CPI is a broad measure; a person's personal inflation can differ depending on their spending.
+The Consumer Price Index measures changes over time in the prices consumers pay for a representative basket of goods and services. The basket attempts to reflect household spending, and the components that make it up have weights based on their relative importance. CPI is a broad measure and a person's personal inflation can differ depending on their spending.
 
-The CPI index reference period is **2002 = 100.0**. A CPI value of 136.9 means the index level is 36.9% above its 2002 reference level. A simplified fixed-basket explanation is:
+The CPI index reference period is 2002 = 100.0. A CPI value of 136.9 means the index level is 36.9% above its 2002 reference level. A simplified fixed-basket explanation is:
 
 ```text
 CPI in a period = (Cost of the representative basket in that period
                    / Cost of the basket in the base period) × 100
 ```
 
-This is a simplified explanation. Statistics Canada calculates CPI using a detailed weighted index methodology and updates basket weights over time. See [Statistics Canada's CPI FAQ](https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes/faq) and [CPI reference paper](https://www150.statcan.gc.ca/n1/en/pub/62-553-x/62-553-x2023001-eng.pdf) for details. The Bank of Canada's [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) explains how CPI is used to compare basket costs over time.
+This is a simplified explanation and Statistics Canada calculates CPI using a detailed weighted index methodology and updates basket weights over time. See [Statistics Canada's CPI FAQ](https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes/faq) and [CPI reference paper](https://www150.statcan.gc.ca/n1/en/pub/62-553-x/62-553-x2023001-eng.pdf) for details. The Bank of Canada's [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) explains how CPI is used to compare basket costs over time.
 
 ## Sample output
 
@@ -371,4 +362,5 @@ CPI for second period: 136.9
 
 ## Summary
 
-The original calculator compares years using September CPI. The enhanced calculator lets users choose exact months and validates their inputs. Both use the CPI ratio to adjust the price and calculate the total and compound annual changes. From September 1915 to September 2020, CPI rises from 6.1 to 136.9; CAD $100,000.00 becomes CAD $2,244,262.30. That is a 2,144.26% total increase and a 3.01% compound average annual rate over 105 years.
+The original calculator compares years by pulling the September CPI as the yearly CPI. The enhanced calculator lets users choose exact months and validates their inputs. Both use the CPI ratio to adjust the price and calculate the total and compound annual changes. From September 1915 to September 2020, CPI rises from 6.1 to 136.9; CAD $100,000.00 becomes CAD $2,244,262.30. That is a 2,144.26% total increase and a 3.01% compound average annual rate over 105 years.
+
