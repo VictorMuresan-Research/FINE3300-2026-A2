@@ -390,3 +390,9 @@ Charest, J., & White, J. (2015). *Exploring the first century of Canada’s Cons
 
 NumPy Developers. (n.d.). *numpy.power*. NumPy documentation. https://numpy.org/doc/stable/reference/generated/numpy.power.html
 - Raising value to a power, used in annual inflation calculation.
+
+Statistics Canada. (n.d.). *Consumer Price Index: Frequently asked questions*. https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes/faq
+- Consumer Price Index, background and FAQs.
+
+Statistics Canada. (2023, February 20). *The Canadian Consumer Price Index reference paper*. https://www150.statcan.gc.ca/n1/en/pub/62-553-x/62-553-x2023001-eng.pdf
+- Further information on the Consumer Price Index.
