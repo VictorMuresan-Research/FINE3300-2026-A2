@@ -315,6 +315,15 @@ CPI in a period = (Cost of the representative basket in that period / Cost of th
 
 Statistics Canada calculates CPI using a detailed weighted index methodology and updates basket weights over time. Further information and details are available at [Statistics Canada's CPI FAQ](https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes/faq) and [CPI reference paper](https://www150.statcan.gc.ca/n1/en/pub/62-553-x/62-553-x2023001-eng.pdf). The Bank of Canada's [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) explains how CPI is used to compare basket costs over time.
 
+
+## CPI Graph Commentary
+
+![Original calculator: September CPI and annual percentage change](original_cpi_graph_september.png)
+
+![Enhanced calculator: monthly CPI and annual percentage change](enhanced_cpi_graph.png)
+
+Both graphs show CPI rising over the long term, as expected. There is a sharper increase from the 1970s onwards and large increase in the early 2020s. In comparison, the annual percentage change is much more volatile. Statistics Canada reports that CPI rose 48.3% following WW1, with annual average inflation reaching 17.9% in 1917, and the subsequent 1930s dip aligning with the deflationary period of the Great Depression. Rises in the 1970s and 1980s align with oil and commodity price shocks. According to the data CPI rose from 20.4 in September 1970 to 45 in september 1980, a total increase of 120.59% and an average annual rate of 8.23%. While the sharp 2021-2022 increase correlates with pandemic supply shortages and higher commodity prices, with the Russia-Ukraine war adding inflationary pressure. From September 2019 to September 2022, CPI increased from 136.2 to 152.7, a 12.11% increase in just ~3 years. The monthly graph produced by the enhanced code makes short term changes easier to visualise. Even when annual percentage changes fall, CPI can continue to rise as prices increase at a slower rate, rather than returning to earlier levels.
+
 ## Sample output
 
 Both examples use **CAD $100,000.00** and CPI values of 6.1 and 136.9. Amounts are rounded to the nearest cent and identify the currency as CAD.
@@ -362,3 +371,22 @@ CPI for second period: 136.9
 ## Summary
 
 The original calculator compares years by pulling the September CPI as the yearly CPI. The enhanced calculator lets users choose exact months and validates their inputs. Both use the CPI ratio to adjust the price and calculate the total and compound annual changes. From September 1915 to September 2020, CPI rises from 6.1 to 136.9; CAD $100,000.00 becomes CAD $2,244,262.30. That is a 2,144.26% total increase and a 3.01% compound average annual rate over 105 years.
+
+## References
+
+Bank of Canada. (n.d.). *Inflation Calculator* https://www.bankofcanada.ca/rates/related/inflation-calculator/
+
+Bank of Canada. (1999). *Canadian economic performance at the end of the twentieth century* (Staff discussion paper 99-5). https://www.bankofcanada.ca/1999/06/canadian-economic-performance-end-twentieth-century/
+- Historical context on the rise of oil and commodity prices in the 1970s.
+
+Bank of Canada. (2022, October). *What’s happening to inflation and why it matters*. https://www.bankofcanada.ca/2022/10/whats-happening-to-inflation-and-why-it-matters/
+- Pandemic-era supply disruptions, global energy prices and the effects of Russia’s invasion of Ukraine on commodity prices.
+
+Bank of Canada. (2024). *Sources of pandemic-era inflation in Canada: An application of the Bernanke and Blanchard model* (Staff analytical note 2024-13). https://www.bankofcanada.ca/2024/06/staff-analytical-note-2024-13/
+- Food and energy prices, and pandemic-era inflationary pressure.
+
+Charest, J., & White, J. (2015). *Exploring the first century of Canada’s Consumer Price Index*. Statistics Canada. https://www150.statcan.gc.ca/n1/pub/62-604-x/62-604-x2015001-eng.htm
+- Explains CPI, price changes during WW1 & the Great Depression.
+
+NumPy Developers. (n.d.). *numpy.power*. NumPy documentation. https://numpy.org/doc/stable/reference/generated/numpy.power.html
+- Raising value to a power, used in annual inflation calculation.
