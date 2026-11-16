@@ -2,7 +2,7 @@
 
 ## Project overview
 
-This project recreates the Bank of Canada Inflation Calculator and enhances it to use monthly dates. Both versions use the Bank of Canada monthly all-items Consumer Price Index (CPI) data.
+This project recreates the The Bank of Canada's [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) and enhances it to use monthly dates. Both versions use the Bank of Canada monthly all-items Consumer Price Index (CPI) data.
 
 - **Original calculator:** asks for a dollar amount and two years, then uses each year's September CPI value.
 - **Enhanced calculator:** asks for a dollar amount and two month/year periods in `MM/YYYY` format, then uses CPI for the exact months entered. It validates the amount and dates.
@@ -23,7 +23,7 @@ Both programs adjust the cost of a basket using the ratio of the CPI values. Pan
 ## Instructions
 
 Keep the CSV file in the same folder as both Python scripts. 
-Keep the two generated graph images (original_cpi_graph_september.png & enhanced_cpi_graph.png) beside this README so GitHub can display them.
+Keep the two generated graph images (`original_cpi_graph_september.png` & `enhanced_cpi_graph.png`) beside this README so GitHub can display them.
 
 Install Python 3 and the required packages:
 
@@ -38,7 +38,7 @@ python Bank_Of_Canada_CPI_Calculator_Original.py
 python Bank_Of_Canada_CPI_Calculator_Enhanced.py
 ```
 
-The original program has 3 inputs, it asks for a dollar amount and two years. Commas and spaces in the amount are allowed. It assumes the amount and years are valid. The enhanced program also has 3 inputs, and asks for a positive amount and two dates in `MM/YYYY` format, such as `09/1915`. It repeats the prompt if the amount or date is invalid, outside the data range, or for a month without a CPI observation. Each program saves its graph as `inflation_cpi_chart.png` in the working folder. Running the other version in the same folder replaces that generated graph.
+The original program has 3 inputs, it asks for a dollar amount and two years. Commas and spaces in the amount are allowed and it assumes the amount and years are valid. The enhanced program also has 3 inputs, and asks for a positive amount and two dates in `MM/YYYY` format, such as `09/1915`. It repeats the prompt if the amount or date is invalid, outside the data range, or for a month without a CPI observation. Each program saves its graph as `inflation_cpi_chart.png` in the working folder. Running the other version in the same folder replaces that generated graph.
 
 # Original calculator: September CPI by year
 
@@ -107,7 +107,7 @@ The original version expects valid inputs. For example, the entered years should
 
 ### 5. Calculate the adjusted cost and inflation results
 
-The cost formula multiplies the original amount by the ratio of the second CPI to the first CPI. The percentage formula compares the adjusted cost with the original amount. The program uses the absolute year difference for the time period. The average annual rate is a compound rate. When both selected years are equal, it sets the rate to 0.00% because there is no elapsed time.
+The cost formula multiplies the original amount by the ratio of the second CPI to the first CPI. The percentage formula compares the adjusted cost with the original amount. The program uses the absolute year difference for the time period. The average annual rate is a compound rate. When both selected years are equal, it sets the rate to 0.00%.
 
 ```python
 adjusted_cost = amount * (cpi2 / cpi1)
@@ -152,7 +152,7 @@ The enhanced calculator accepts month and year, so the user can compare specific
 
 The enhanced program uses the same three libraries as the original. It defines two functions before the main program:
 
-- `get_amount()` asks for a positive numeric amount. It removes `$`, commas, and spaces, converts the text to a number, and catches `ValueError` if the text cannot be converted.
+- `get_amount()` asks for a positive numeric amount. It removes $, commas, and spaces, converts the text to a number, and catches `ValueError` if the text cannot be converted.
 - `get_period()` asks for a month and year, then checks the format, the available date range, and whether the CPI series contains that exact month.
 
 
@@ -293,7 +293,7 @@ Number of years = absolute value of months between periods / 12
 Average annual rate = ((CPI2 / CPI1)^(1 / number of years) - 1) × 100
 ```
 
-If both selected periods are identical, the program returns `0.00%` because there is no elapsed time to annualize.
+If both selected periods are identical, the program returns 0.00% because there is no elapsed time to annualize.
 
 **Annual percentage change in the graphs**
 
@@ -310,11 +310,10 @@ The Consumer Price Index measures changes over time in the prices consumers pay 
 The CPI index reference period is 2002 = 100.0. A CPI value of 136.9 means the index level is 36.9% above its 2002 reference level. A simplified fixed-basket explanation is:
 
 ```text
-CPI in a period = (Cost of the representative basket in that period
-                   / Cost of the basket in the base period) × 100
+CPI in a period = (Cost of the representative basket in that period / Cost of the basket in the base period) × 100
 ```
 
-This is a simplified explanation and Statistics Canada calculates CPI using a detailed weighted index methodology and updates basket weights over time. See [Statistics Canada's CPI FAQ](https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes/faq) and [CPI reference paper](https://www150.statcan.gc.ca/n1/en/pub/62-553-x/62-553-x2023001-eng.pdf) for details. The Bank of Canada's [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) explains how CPI is used to compare basket costs over time.
+Statistics Canada calculates CPI using a detailed weighted index methodology and updates basket weights over time. Further information and details are available at [Statistics Canada's CPI FAQ](https://www.statcan.gc.ca/en/subjects-start/prices_and_price_indexes/consumer_price_indexes/faq) and [CPI reference paper](https://www150.statcan.gc.ca/n1/en/pub/62-553-x/62-553-x2023001-eng.pdf). The Bank of Canada's [Inflation Calculator](https://www.bankofcanada.ca/rates/related/inflation-calculator/) explains how CPI is used to compare basket costs over time.
 
 ## Sample output
 
@@ -363,4 +362,3 @@ CPI for second period: 136.9
 ## Summary
 
 The original calculator compares years by pulling the September CPI as the yearly CPI. The enhanced calculator lets users choose exact months and validates their inputs. Both use the CPI ratio to adjust the price and calculate the total and compound annual changes. From September 1915 to September 2020, CPI rises from 6.1 to 136.9; CAD $100,000.00 becomes CAD $2,244,262.30. That is a 2,144.26% total increase and a 3.01% compound average annual rate over 105 years.
-
